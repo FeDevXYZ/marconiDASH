@@ -17,9 +17,9 @@ if __name__ == '__main__':
 
       cpupercent = psutil.cpu_percent(interval=1)
       cpufreq = psutil.cpu_freq()
-      if platform.system() == "Windows":  # PSUTIL has an issue where getloadavg returns an unusable namedtuple (0,0,0)
-        psutil.getloadavg()  # for the 5 seconds that follow the first getloadavg() call.
-        print("Calculating system load...")  # This will probably make the wait feel less like a wait.
+      if platform.system() == "Windows":      # PSUTIL has an issue where getloadavg returns an unusable namedtuple (0,0,0)
+        psutil.getloadavg()                   # for the 5 seconds that follow the first getloadavg() call.
+        print("Calculating system load...")   # This will probably make the wait feel less like a wait.
         time.sleep(7)
         loadavg = psutil.getloadavg()
       else:
