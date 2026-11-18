@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>marconiDASH</title>
+</head>
+<body>
+    <div class="main">
+        <div class="menu"></div>
+        <div class="container">
+            <p id="data-debug"></p> <!-- used only for debug -->
+        </div>
+    </div>
+    <script>
+        const data_debug = document.getElementById("data-debug")
+        async function updateData() {
+            const r = await fetch("/data")
+            const j = await r.json()
+            data_debug.textContent = JSON.stringify(j, null, 2)
+        }
+        updateData()
+        setInterval(updateData, 5000)
+    </script>
+</body>
+</html>
