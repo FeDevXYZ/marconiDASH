@@ -1,13 +1,21 @@
 import psutil  # Get system stats
 import platform  # Know which system the user is on
 import time  # Wait functions
-from flask import Flask, render_template  # Web operations
+from flask import Flask, render_template, jsonify  # Web operations
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
   return render_template("index.html")
+
+@app.route('/data')
+def returnData():
+  return jsonify({
+    "system": platform.system(),
+    "memory": getRAM(),
+    "cpu": getCPU()
+  })
 
 def getRAM(): # Prints and returns RAM data
   ram_obj = psutil.virtual_memory()
@@ -33,21 +41,28 @@ def getRAM(): # Prints and returns RAM data
   print(f"Used: {format(swap_used, "04.2f")} GB | Free: {format(swap_free, "04.2f")} GB")
   print(f"Usage percent: {swap_percent}%")
 
-  return ram_tot, ram_avail, ram_percent, swap_tot, swap_used, swap_free, swap_percent
+  # return ram_tot, ram_avail, ram_percent, swap_tot, swap_used, swap_free, swap_percent
+  return {
+    "ram": {
+      "total": ram_tot,
+      "available": ram_avail,
+      "percent": ram_percent
+       },
+    "swap": {
+      "total": swap_tot,
+      "used": swap_used,
+      "free": swap_free,
+      "percent": swap_percent
+    }
+  }
 
 def getCPU(): # Prints and returns CPU data
   cpucount = psutil.cpu_count()
   cpucount_notlogical = psutil.cpu_count(logical=False)
 
-  cpupercent = psutil.cpu_percent(interval=1)
+  cpupercent = psutil.cpu_percent()
   cpufreq = psutil.cpu_freq()
-  if platform.system().lower() == "windows" or platform.system().lower() == "win32":  # PSUTIL has an issue where getloadavg returns an unusable namedtuple (0,0,0)
-    psutil.getloadavg()  # for the 5 seconds that follow the first getloadavg() call on Windows.
-    print("Calculating system load...")  # This will probably make the wait feel less like a wait.
-    time.sleep(7)
-    loadavg = psutil.getloadavg()
-  else:
-    loadavg = psutil.getloadavg()
+  loadavg = psutil.getloadavg()
   print("CPU AND SYSTEM Stats:")
 
   print("Sys load average:")
@@ -63,10 +78,20 @@ def getCPU(): # Prints and returns CPU data
   print("Info:")
   print(f"Count: {cpucount}     of which not logical: {cpucount_notlogical}")
 
-  return cpucount, cpucount_notlogical, cpufreq, cpupercent, loadavg
+  # return cpucount, cpucount_notlogical, cpufreq, cpupercent, loadavg
+  return {
+    "count": cpucount,
+    "notlogical": cpucount_notlogical,
+    "percent": cpupercent,
+    "frequency": cpufreq.current,
+    "loadavg": loadavg
+  }
 
 if __name__ == '__main__':
-  app.run() # This blocks the app until the server is closed: it's intended behavior for now.
+  psutil.getloadavg()
+  psutil.cpu_percent()
+
+  app.run(host="0.0.0.0", port=5000) # This blocks the app until the server is closed: it's intended behavior for now.
 
   print("Welcome to marconiDASH. \nPlease select the server you want to connect to:")
 
