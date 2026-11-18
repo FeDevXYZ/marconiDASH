@@ -17,6 +17,12 @@
             const r = await fetch("/data")
             const j = await r.json()
             data_debug.textContent = JSON.stringify(j, null, 2)
+
+            const [load1, load5, load15] = j.cpu.loadavg
+            const { count: count, frequency: frequency, notlogical: notlogical, percent, cpupercent } = j.cpu
+            const { available: ramavailable, percent: rampercent, total: ramtotal } = j.memory.ram
+            const { free: swapavailable, percent: swappercent, total: swaptotal, used: swapused } = j.memory.swap
+            const system = j.system
         }
         updateData()
         setInterval(updateData, 5000)
