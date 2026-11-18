@@ -1,8 +1,17 @@
 import psutil  # Get system stats
 import platform  # Know which system the user is on
 import time  # Wait functions
+from flask import Flask, render_template  # Web operations
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+  return render_template("index.html")
 
 if __name__ == '__main__':
+  app.run() # This blocks the app until the server is closed: it's intended behavior for now.
+
   print("Welcome to marconiDASH. \nPlease select the server you want to connect to:")
 
   # The real program starts here
