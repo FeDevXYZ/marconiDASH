@@ -19,11 +19,11 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            name: MedVault
-            file: MedVault.exe
+            name: marconiDASH
+            file: marconiDASH.exe
           - os: ubuntu-22.04
-            name: MedVault-linux
-            file: MedVault-linux
+            name: marconiDASH-linux
+            file: marconiDASH-linux
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
       - name: Build
         env:
           APP_NAME: ${{ matrix.name }}
-        run: uv run --python 3.14 --with pyinstaller pyinstaller MedVault.spec
+        run: uv run --python 3.14 --with pyinstaller pyinstaller marconidash.spec
 
       - name: Upload to the release
         shell: bash
