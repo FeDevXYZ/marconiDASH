@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="/static/style.css">
   <meta charset="UTF-8">
   <title>marconiDASH</title>
 </head>
@@ -8,6 +9,27 @@
 <div class="main">
   <div class="container">
     <p id="data-debug"></p> <!-- used only for debug -->
+    <div class="voice">
+        <h1>CPU</h1>
+        <div style="margin-bottom: 8px">
+            <h3>Total usage percent</h3>
+            <h2>99%</h2>
+        </div>
+        <div style="margin-top: 0">
+            <h3>Usage per core</h3>
+            <ul id="cpu-usage">
+                <li>Core 1: 76%</li>
+                <li>Core 2: 65%</li>
+                <li>Core 3: 38%</li>
+                <li>Core 4: 35%</li>
+                <li>Core 5: 18%</li>
+                <li>Core 6: 84%</li>
+                <li>Core 7: 70%</li>
+                <li>Core 8: 13%</li>
+            </ul>
+        </div>
+
+    </div>
   </div>
 </div>
 <script>
