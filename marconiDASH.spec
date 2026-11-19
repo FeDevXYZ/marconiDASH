@@ -1,7 +1,12 @@
 # PyInstaller spec: same build for Windows and Linux
 import os
 
-a = Analysis(['main.py'], hiddenimports=['babel.numbers'])
+
+a = Analysis(
+    ['main.py'],
+    datas=[('templates', 'templates')],
+    hiddenimports=['babel.numbers'],
+)
 
 # Linux: use the system's fontconfig/freetype instead of the bundled (older) ones,
 # otherwise fonts are picked differently from running with Python directly.
