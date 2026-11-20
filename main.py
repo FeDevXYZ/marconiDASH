@@ -21,7 +21,6 @@ def returnData():
 @app.route('/diskdata', methods=["POST"])
 def diskdata():
   global partitions
-
   getDISK()
 
   device = request.get_json().get("device")
@@ -31,10 +30,10 @@ def diskdata():
     for p in partitions:
       if device == p["device"]:
         dataobj = psutil.disk_usage(p["mount"])
-        free = format((dataobj.free // 1024 ** 3), "04.2f")
-        used = format((dataobj.used // 1024 ** 3), "04.2f")
-        total = format((dataobj.total // 1024 ** 3), "04.2f")
-        percent = format((dataobj.percent / 1024 ** 3), "04.2f")
+        free = str(dataobj.free // 1024 ** 3)+" GB"
+        used = str(dataobj.used // 1024 ** 3)+" GB"
+        total = str(dataobj.total // 1024 ** 3)+" GB"
+        percent = str(dataobj.percent / 1024 ** 3)+" GB"
         return jsonify({
           "free": free,
           "used": used,
