@@ -1,29 +1,37 @@
+body{
+    background: #ebf2e1;
+}
 .container{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: center;
     padding: 20px;
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    background: #ebf2e1;
+}
+.container-voice{
+    display: flex;
+    gap: 20px;
 }
 .voice{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
-    padding: 10px;
+    padding: 10px 10px 10px 20px;
     color: #7C7539FF;
     border-radius: 10px;
-    width: fit-content;
+    width: 270px;
     min-width: 20vw;
-    height: fit-content;
-    min-height: 20vw;
+    max-width: 30vw;
     background: white;
+    height: 90%;
     h1{
         margin-bottom: 0;
+        text-align: center;
+        width: 100%;
     }
     h3{
         margin-bottom: 0;
@@ -34,6 +42,52 @@
         font-size: 2em;
     }
     ul{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px 48px;
+        list-style-type: circle;
+        padding-left: 24px;
+    }
+}
+.voice1{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: rgb(255 255 255 / 0.48);
+    padding: 10px;
+    border-radius: 15px;
+    gap: 10px;
+}
+.voice2{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 10px 10px 20px;
+    color: #7C7539FF;
+    border-radius: 10px;
+    width: 270px;
+    min-width: 20vw;
+    max-width: 30vw;
+    background: white;
+    height: 90%;
+    h1{
+        margin-bottom: 0;
+        text-align: center;
+        width: 100%;
+    }
+    h3{
+        margin-bottom: 0;
+    }
+    h2{
+        margin-top: 0;
+        margin-bottom: 4px;
+        font-size: 2em;
+    }
+    ul{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px 48px;
         list-style-type: circle;
         padding-left: 24px;
     }

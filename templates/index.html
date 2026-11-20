@@ -8,27 +8,60 @@
 <body>
 <div class="main">
   <div class="container">
-    <p id="data-debug"></p> <!-- used only for debug -->
-    <div class="voice">
-        <h1>CPU</h1>
-        <div style="margin-bottom: 8px">
+    <!-- <p id="data-debug"></p> used only for debug -->
+    <div class="container-voice">
+      <div class="voice">
+          <h1>CPU</h1>
+          <div style="margin-bottom: 8px">
+              <h3>Total usage percent</h3>
+              <h2>99%</h2>
+          </div>
+          <div style="margin-top: 0">
+              <h3>Usage per core</h3>
+              <ul id="cpu-usage">
+                  <li>Core 1: 76%</li>
+                  <li>Core 2: 65%</li>
+                  <li>Core 3: 38%</li>
+                  <li>Core 4: 35%</li>
+                  <li>Core 5: 18%</li>
+                  <li>Core 6: 84%</li>
+                  <li>Core 7: 70%</li>
+                  <li>Core 8: 13%</li>
+              </ul>
+          </div>
+      </div>
+      <div class="voice1">
+        <div class="voice2">
+          <div>
+            <h1>RAM</h1>
+            <div style="margin-bottom: 8px">
+              <h3>Total usage percent</h3>
+              <h2>99%</h2>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 20px">
+              <div style="display: flex; flex-direction: column; align-items: center; border-right: solid 1px #7C7539FF; width: 100px;">
+                <h3 style="margin-bottom: 0; margin-top: 0">Available</h3>
+                <h3 style="margin-top: 0;">6,3 GB</h3>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; border-right: solid 1px #7C7539FF; width: 100px; justify-content: center">
+                <h3 style="margin-bottom: 0; margin-top: 0">Used</h3>
+                <h3 style="margin-top: 0">1,7 GB</h3>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
+                <h3 style="margin-bottom: 0; margin-top: 0">Total</h3>
+                <h3 style="margin-top: 0">7 GB</h3>
+              </div>
+          </div>
+        </div>
+        <div class="voice">
+          <h1>SWAP</h1>
+          <div style="margin-bottom: 8px">
             <h3>Total usage percent</h3>
             <h2>99%</h2>
+          </div>
         </div>
-        <div style="margin-top: 0">
-            <h3>Usage per core</h3>
-            <ul id="cpu-usage">
-                <li>Core 1: 76%</li>
-                <li>Core 2: 65%</li>
-                <li>Core 3: 38%</li>
-                <li>Core 4: 35%</li>
-                <li>Core 5: 18%</li>
-                <li>Core 6: 84%</li>
-                <li>Core 7: 70%</li>
-                <li>Core 8: 13%</li>
-            </ul>
-        </div>
-
+      </div>
     </div>
   </div>
 </div>
