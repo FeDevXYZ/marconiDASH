@@ -45,15 +45,15 @@ def getRAM(): # Prints and returns RAM data
   # return ram_tot, ram_avail, ram_percent, swap_tot, swap_used, swap_free, swap_percent
   return {
     "ram": {
-      "total": ram_tot,
-      "available": ram_avail,
-      "percent": ram_percent
+      "total": format(ram_tot, "04.2f"),
+      "available": format(ram_avail, "04.2f"),
+      "percent": format(ram_percent, "04.2f")
        },
     "swap": {
-      "total": swap_tot,
-      "used": swap_used,
-      "free": swap_free,
-      "percent": swap_percent
+      "total": format(swap_tot, "04.2f"),
+      "used": format(swap_used, "04.2f"),
+      "free": format(swap_free, "04.2f"),
+      "percent": format(swap_percent, "04.2f")
     }
   }
 
@@ -83,9 +83,9 @@ def getCPU(): # Prints and returns CPU data
   return {
     "count": cpucount,
     "notlogical": cpucount_notlogical,
-    "percent": cpupercent,
-    "frequency": cpufreq.current,
-    "loadavg": loadavg
+    "percent": format(cpupercent, "04.2f"),
+    "frequency": format(cpufreq.current, "04.2f"),
+    "loadavg": format(loadavg, "04.2f")
   }
 
 def getDISK():
@@ -99,6 +99,7 @@ def getDISK():
     print(f"{partition_device}, {partition_mount}, {partition_fs}, {partition_opts}")
     partitions.append({"device": partition_device, "mount": partition_mount, "filesystem": partition_fs, "opts": partition_opts})
   return partitions
+
 if __name__ == "__main__":
   psutil.getloadavg()
   psutil.cpu_percent()
