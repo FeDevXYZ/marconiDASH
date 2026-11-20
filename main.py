@@ -87,7 +87,18 @@ def getCPU(): # Prints and returns CPU data
     "loadavg": loadavg
   }
 
-if __name__ == '__main__':
+def getDISK():
+  partitions = []
+  partitionsobj = psutil.disk_partitions()
+  for p in partitionsobj:
+    partition_device = p.device
+    partition_mount = p.mountpoint
+    partition_fs = p.fstype
+    partition_opts = p.opts
+    print(f"{partition_device}, {partition_mount}, {partition_fs}, {partition_opts}")
+    partitions.append({"device": partition_device, "mount": partition_mount, "filesystem": partition_fs, "opts": partition_opts})
+
+if __name__ == "__main__":
   psutil.getloadavg()
   psutil.cpu_percent()
 
@@ -105,3 +116,5 @@ if __name__ == '__main__':
       getCPU()
     elif answer == "2":
       getRAM()
+    elif answer == "3":
+      getDISK()
