@@ -14,7 +14,8 @@ def returnData():
   return jsonify({
     "system": platform.system(),
     "memory": getRAM(),
-    "cpu": getCPU()
+    "cpu": getCPU(),
+    "disk": getDISK()
   })
 
 def getRAM(): # Prints and returns RAM data
@@ -97,7 +98,7 @@ def getDISK():
     partition_opts = p.opts
     print(f"{partition_device}, {partition_mount}, {partition_fs}, {partition_opts}")
     partitions.append({"device": partition_device, "mount": partition_mount, "filesystem": partition_fs, "opts": partition_opts})
-
+  return partitions
 if __name__ == "__main__":
   psutil.getloadavg()
   psutil.cpu_percent()
