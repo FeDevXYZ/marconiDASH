@@ -1,8 +1,9 @@
 import psutil  # Get system stats
 import platform  # Know which system the user is on
 import time  # Wait functions
-from flask import Flask, render_template, jsonify  # Web operations
+from flask import Flask, render_template, jsonify, request  # Web operations
 
+partitions = []
 app = Flask(__name__)
 
 @app.route('/')
@@ -17,6 +18,31 @@ def returnData():
     "cpu": getCPU(),
     "disk": getDISK()
   })
+@app.route('/diskdata', methods=["POST"])
+def diskdata():
+  global partitions
+
+  getDISK()
+
+  device = request.get_json().get("device")
+  if device is None:
+    return "Type in a device."
+  else:
+    for p in partitions:
+      if device == p["device"]:
+        dataobj = psutil.disk_usage(p["mount"])
+        free = format((dataobj.free // 1024 ** 3), "04.2f")
+        used = format((dataobj.used // 1024 ** 3), "04.2f")
+        total = format((dataobj.total // 1024 ** 3), "04.2f")
+        percent = format((dataobj.percent / 1024 ** 3), "04.2f")
+        return jsonify({
+          "free": free,
+          "used": used,
+          "total": total,
+          "percent": percent
+        })
+    else:
+      return "No device found."
 
 def getRAM(): # Prints and returns RAM data
   ram_obj = psutil.virtual_memory()
@@ -85,10 +111,11 @@ def getCPU(): # Prints and returns CPU data
     "notlogical": cpucount_notlogical,
     "percent": format(cpupercent, "04.2f"),
     "frequency": format(cpufreq.current, "04.2f"),
-    "loadavg": format(loadavg, "04.2f")
+    "loadavg": loadavg
   }
 
 def getDISK():
+  global partitions
   partitions = []
   partitionsobj = psutil.disk_partitions()
   for p in partitionsobj:
