@@ -142,11 +142,13 @@ def getNET():
   net_bytesrec = net_bytesrec - net_last_bytesrec
   net_errs = net_errs - net_last_errs
 
-  # Get network connections
+  # Transform all data in clear units
+  net_bytessent = net_bytessent/(1024**2)
+  net_bytesrec = net_bytesrec/(1024**2)
 
   print(
-    net_bytessent,
-    net_bytesrec,
+    str(format(net_bytessent, "04.2f"))+" MB ",
+    str(format(net_bytesrec, "04.2f"))+" MB ",
     net_errs
   )
   return{
