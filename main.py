@@ -126,21 +126,31 @@ def getDISK():
     partitions.append({"device": partition_device, "mount": partition_mount, "filesystem": partition_fs, "opts": partition_opts})
   return partitions
 
-def getNET():
-  # Network counters fetch and calculations
+net_last_bytessent = 0
+net_last_bytesrec = 0
+net_last_errs = 0
+def initNET():
+  global net_last_bytesrec, net_last_bytessent, net_last_errs
   netobj = psutil.net_io_counters()
   net_last_bytessent = netobj.bytes_sent
   net_last_bytesrec = netobj.bytes_recv
   net_last_errs = netobj.errin + netobj.errout
-  time.sleep(1)
+def getNET():
+  global net_last_bytesrec, net_last_bytessent, net_last_errs
+
+  # Network counters fetch and calculations
   netobj = psutil.net_io_counters()
-  net_bytessent = netobj.bytes_sent
-  net_bytesrec = netobj.bytes_recv
-  net_errs = netobj.errin + netobj.errout
+  net_bytessent_raw = netobj.bytes_sent
+  net_bytesrec_raw = netobj.bytes_recv
+  net_errs_raw = netobj.errin + netobj.errout
   # Calculate difference
-  net_bytessent = net_bytessent - net_last_bytessent
-  net_bytesrec = net_bytesrec - net_last_bytesrec
-  net_errs = net_errs - net_last_errs
+  net_bytessent = net_bytessent_raw - net_last_bytessent
+  net_bytesrec = net_bytesrec_raw - net_last_bytesrec
+  net_errs = net_errs_raw - net_last_errs
+  # Save last data for next use
+  net_last_bytessent = net_bytessent_raw
+  net_last_bytesrec = net_bytesrec_raw
+  net_last_errs = net_errs_raw
 
   # Transform all data in clear units
   net_bytessent = net_bytessent/(1024**2)
@@ -157,6 +167,7 @@ def getNET():
     "errors": net_errs
   }
 
+
 if __name__ == "__main__":
   import ctypes, os
 
@@ -167,6 +178,8 @@ if __name__ == "__main__":
   if not is_admin:
     print("WARNING: You may want to run this script as an administrator or with sudo, as some options could get stopped by a Permission Error.")
 
+ # Initialize data fetch: some functions need to have a blank call for init
+  initNET()
   psutil.getloadavg()
   psutil.cpu_percent()
 
