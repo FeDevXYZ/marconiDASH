@@ -171,7 +171,8 @@ if __name__ == "__main__":
     answer = input("\nSELECT THE PARAMETERS YOU WANT TO GET:"
                  "\n1. CPU AND SYSTEM"
                  "\n2. RAM"
-                 "\n3. DISK\n")
+                 "\n3. DISK"
+                 "\n4. NETWORK")
     if answer == "1":
       getCPU()
     elif answer == "2":
