@@ -126,6 +126,26 @@ def getDISK():
     partitions.append({"device": partition_device, "mount": partition_mount, "filesystem": partition_fs, "opts": partition_opts})
   return partitions
 
+def getNET():
+  # Network counters fetch and calculations
+  netobj = psutil.net_io_counters()
+  net_last_bytessent = netobj.bytes_sent
+  net_last_bytesrec = netobj.bytes_recv
+  net_last_errs = netobj.errin + netobj.errout
+  time.sleep(1)
+  net_bytessent = netobj.bytes_sent
+  net_bytesrec = netobj.bytes_recv
+  net_errs = netobj.errin + netobj.errout
+  # Calculate difference
+  net_bytessent = net_bytessent - net_last_bytessent
+  net_bytesrec = net_bytesrec - net_last_bytesrec
+  net_errs = net_errs - net_last_errs
+
+  return{
+    "bytes_sent": net_bytessent,
+    "bytes_rec": net_bytesrec,
+    "errors": net_errs
+  }
 if __name__ == "__main__":
   psutil.getloadavg()
   psutil.cpu_percent()
