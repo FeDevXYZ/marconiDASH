@@ -141,6 +141,8 @@ def getNET():
   net_bytesrec = net_bytesrec - net_last_bytesrec
   net_errs = net_errs - net_last_errs
 
+  # Get network connections
+
   return{
     "bytes_sent": net_bytessent,
     "bytes_rec": net_bytesrec,
@@ -148,6 +150,15 @@ def getNET():
   }
 
 if __name__ == "__main__":
+  import ctypes, os
+
+  try:
+    is_admin = os.getuid() == 0
+  except:
+    is_admin = ctypes.windll.shell32.IsUserAnAdmin()
+  if not is_admin:
+    print("WARNING: You may want to run this script as an administrator or with sudo, as some options could get stopped by a Permission Error.")
+
   psutil.getloadavg()
   psutil.cpu_percent()
 
@@ -167,3 +178,5 @@ if __name__ == "__main__":
       getRAM()
     elif answer == "3":
       getDISK()
+    elif answer == "4":
+      getNET()
