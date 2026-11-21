@@ -143,7 +143,7 @@ def getNET():
   net_bytessent_raw = netobj.bytes_sent
   net_bytesrec_raw = netobj.bytes_recv
   net_errs_raw = netobj.errin + netobj.errout
-  # Calculate difference
+    # Calculate difference
   net_bytessent = net_bytessent_raw - net_last_bytessent
   net_bytesrec = net_bytesrec_raw - net_last_bytesrec
   net_errs = net_errs_raw - net_last_errs
@@ -162,8 +162,8 @@ def getNET():
     net_errs
   )
   return{
-    "bytes_sent": net_bytessent,
-    "bytes_rec": net_bytesrec,
+    "bytes_sent": format(net_bytessent, "04.2f"),
+    "bytes_rec": format(net_bytesrec, "04.2f"),
     "errors": net_errs
   }
 
@@ -176,7 +176,7 @@ if __name__ == "__main__":
   except:
     is_admin = ctypes.windll.shell32.IsUserAnAdmin()
   if not is_admin:
-    print("WARNING: You may want to run this script as an administrator or with sudo, as some options could get stopped by a Permission Error.")
+    print("⚠️ WARNING: You may want to run this script as an administrator or with sudo, as some options could get stopped by a Permission Error.")
 
  # Initialize data fetch: some functions need to have a blank call for init
   initNET()
@@ -193,7 +193,8 @@ if __name__ == "__main__":
                  "\n1. CPU AND SYSTEM"
                  "\n2. RAM"
                  "\n3. DISK"
-                 "\n4. NETWORK")
+                 "\n4. NETWORK"
+                 "\n")
     if answer == "1":
       getCPU()
     elif answer == "2":
