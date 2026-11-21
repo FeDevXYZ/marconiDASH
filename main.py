@@ -183,7 +183,7 @@ if __name__ == "__main__":
   psutil.getloadavg()
   psutil.cpu_percent()
 
-  # app.run(host="0.0.0.0", port=5000) # This blocks the app until the server is closed: it's intended behavior for now.
+  app.run(host="0.0.0.0", port=5000) # This blocks the app until the server is closed: it's intended behavior for now.
 
   print("Welcome to marconiDASH. \nPlease select the server you want to connect to:")
 
