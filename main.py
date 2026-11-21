@@ -133,6 +133,7 @@ def getNET():
   net_last_bytesrec = netobj.bytes_recv
   net_last_errs = netobj.errin + netobj.errout
   time.sleep(1)
+  netobj = psutil.net_io_counters()
   net_bytessent = netobj.bytes_sent
   net_bytesrec = netobj.bytes_recv
   net_errs = netobj.errin + netobj.errout
@@ -143,6 +144,11 @@ def getNET():
 
   # Get network connections
 
+  print(
+    net_bytessent,
+    net_bytesrec,
+    net_errs
+  )
   return{
     "bytes_sent": net_bytessent,
     "bytes_rec": net_bytesrec,
@@ -162,7 +168,7 @@ if __name__ == "__main__":
   psutil.getloadavg()
   psutil.cpu_percent()
 
-  app.run(host="0.0.0.0", port=5000) # This blocks the app until the server is closed: it's intended behavior for now.
+  # app.run(host="0.0.0.0", port=5000) # This blocks the app until the server is closed: it's intended behavior for now.
 
   print("Welcome to marconiDASH. \nPlease select the server you want to connect to:")
 
