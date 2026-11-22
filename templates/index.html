@@ -82,9 +82,6 @@
         const {count: count, frequency: frequency, notlogical: notlogical} = j.cpu // CPU
         const {general: cpupercent, percore: cpupercent_percore} = j.cpu.percent // CPU
         const disk = j.disk
-        disk.partitions.forEach(p => {
-            // Need to add here the innerHTML values of a div. A <p> for every partition.
-        });
         const {readbytes: readMB, writebytes: writeMB } = j.disk
         const {available: ramavailable, percent: rampercent, total: ramtotal} = j.memory.ram
         const {free: swapavailable, percent: swappercent, total: swaptotal, used: swapused} = j.memory.swap
@@ -94,9 +91,15 @@
         // Set text for every data
         // document.getById() statements and vars
         const p_cpupercent = document.getElementById("cpu-usage")
-
+        const p_cpupercentxcore = document.getElementById("cpu-usage-percore")
         // set paragraph text
         p_cpupercent.textContent = cpupercent
+        const fmt = n => n.toFixed(2).padStart(5, "0")
+        cpupercent_percore.forEach(p => {
+            p_cpupercentxcore.innerHTML = cpupercent_percore.map((percent, i) =>
+                `<li>Core ${i+1}: ${fmt(percent)}%</li>`
+            ).join("")
+        });
     }
 
     updateData()
