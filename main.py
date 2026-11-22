@@ -16,7 +16,8 @@ def returnData():
     "system": platform.system(),
     "memory": getRAM(),
     "cpu": getCPU(),
-    "disk": getDISK()
+    "disk": getDISK(),
+    "net": getNET()
   })
 @app.route('/diskdata', methods=["POST"])
 def diskdata():
@@ -87,6 +88,7 @@ def getCPU(): # Prints and returns CPU data
   cpucount_notlogical = psutil.cpu_count(logical=False)
 
   cpupercent = psutil.cpu_percent()
+  cpupercent_percore = psutil.cpu_percent(percpu=True)
   cpufreq = psutil.cpu_freq()
   loadavg = psutil.getloadavg()
   print("CPU AND SYSTEM Stats:")
@@ -108,10 +110,13 @@ def getCPU(): # Prints and returns CPU data
   return {
     "count": cpucount,
     "notlogical": cpucount_notlogical,
-    "percent": format(cpupercent, "04.2f"),
     "frequency": format(cpufreq.current, "04.2f"),
-    "loadavg": loadavg
-  }
+    "loadavg": loadavg,
+    "percent": {
+      "general": format(cpupercent, "04.2f"),
+      "percore": cpupercent_percore
+      }
+    }
 
 def getDISK():
   global partitions
@@ -139,7 +144,7 @@ def getNET():
   global net_last_bytesrec, net_last_bytessent, net_last_errs
 
   # Network counters fetch and calculations
-  netobj = psutil.net_io_counters()
+  netobj = psutil.net_io_counters()     # Note for the next update: pernic=true to return singular connection data
   net_bytessent_raw = netobj.bytes_sent
   net_bytesrec_raw = netobj.bytes_recv
   net_errs_raw = netobj.errin + netobj.errout
