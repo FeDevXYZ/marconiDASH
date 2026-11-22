@@ -118,10 +118,27 @@ def getCPU(): # Prints and returns CPU data
       }
     }
 
+disk_last_writebytes_raw = 0
+disk_last_readbytes_raw = 0
+def initDISK():
+  global disk_last_readbytes_raw, disk_last_writebytes_raw
+  diskobj = psutil.disk_io_counters()
+  disk_readbytes_raw = diskobj.read_bytes
+  disk_writebytes_raw = diskobj.write_bytes
+  disk_last_readbytes_raw = disk_readbytes_raw
+  disk_last_writebytes_raw = disk_writebytes_raw
 def getDISK():
-  global partitions
+  global partitions, disk_last_readbytes_raw, disk_last_writebytes_raw
   partitions = []
   partitionsobj = psutil.disk_partitions()
+  diskobj = psutil.disk_io_counters()
+  disk_readbytes_raw = diskobj.read_bytes
+  disk_writebytes_raw = diskobj.write_bytes
+  # Calculate difference
+  disk_writebytes = format((disk_writebytes_raw-disk_last_writebytes_raw)/1024**2, "04.2f")
+  disk_readbytes = format((disk_readbytes_raw-disk_last_readbytes_raw)/1024**2, "04.2f")
+  disk_last_readbytes_raw = disk_readbytes_raw
+  disk_last_writebytes_raw = disk_writebytes_raw
   for p in partitionsobj:
     partition_device = p.device
     partition_mount = p.mountpoint
@@ -129,8 +146,14 @@ def getDISK():
     partition_opts = p.opts
     print(f"{partition_device}, {partition_mount}, {partition_fs}, {partition_opts}")
     partitions.append({"device": partition_device, "mount": partition_mount, "filesystem": partition_fs, "opts": partition_opts})
-  return partitions
-
+  print(
+    partitions, "\n", disk_readbytes, disk_writebytes
+  )
+  return{
+    "partitions": partitions,
+    "readbytes": disk_readbytes,
+    "writebytes": disk_writebytes
+  }
 net_last_bytessent = 0
 net_last_bytesrec = 0
 net_last_errs = 0
