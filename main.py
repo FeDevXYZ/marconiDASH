@@ -34,7 +34,7 @@ def diskdata():
         free = str(dataobj.free // 1024 ** 3)+" GB"
         used = str(dataobj.used // 1024 ** 3)+" GB"
         total = str(dataobj.total // 1024 ** 3)+" GB"
-        percent = str(dataobj.percent / 1024 ** 3)+" GB"
+        percent = str(dataobj.percent)+"%"
         return jsonify({
           "free": free,
           "used": used,
@@ -73,13 +73,13 @@ def getRAM(): # Prints and returns RAM data
     "ram": {
       "total": format(ram_tot, "04.2f"),
       "available": format(ram_avail, "04.2f"),
-      "percent": format(ram_percent, "04.2f")
+      "percent": format(ram_percent, "04.2f")+"%"
        },
     "swap": {
       "total": format(swap_tot, "04.2f"),
       "used": format(swap_used, "04.2f"),
       "free": format(swap_free, "04.2f"),
-      "percent": format(swap_percent, "04.2f")
+      "percent": format(swap_percent, "04.2f")+"%"
     }
   }
 
@@ -113,7 +113,7 @@ def getCPU(): # Prints and returns CPU data
     "frequency": format(cpufreq.current, "04.2f"),
     "loadavg": loadavg,
     "percent": {
-      "general": format(cpupercent, "04.2f"),
+      "general": format(cpupercent, "04.2f")+"%",
       "percore": cpupercent_percore
       }
     }
