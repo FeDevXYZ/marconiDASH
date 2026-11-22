@@ -28,21 +28,17 @@
             <h1>RAM</h1>
             <div style="margin-bottom: 8px">
               <h3>Total usage percent</h3>
-              <h2>99%</h2>
+              <h2 id="ram-usage">99%</h2>
             </div>
           </div>
           <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 20px">
               <div style="display: flex; flex-direction: column; align-items: center; border-right: solid 1px #7C7539FF; width: 100px;">
                 <h3 style="margin-bottom: 0; margin-top: 0">Available</h3>
-                <h3 style="margin-top: 0;">6,3 GB</h3>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; border-right: solid 1px #7C7539FF; width: 100px; justify-content: center">
-                <h3 style="margin-bottom: 0; margin-top: 0">Used</h3>
-                <h3 style="margin-top: 0">1,7 GB</h3>
+                <h3 id="ram-available" style="margin-top: 0;">6,3 GB</h3>
               </div>
               <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
                 <h3 style="margin-bottom: 0; margin-top: 0">Total</h3>
-                <h3 style="margin-top: 0">7 GB</h3>
+                <h3 id="ram-total" style="margin-top: 0">7 GB</h3>
               </div>
           </div>
         </div>
@@ -92,6 +88,12 @@
         // document.getById() statements and vars
         const p_cpupercent = document.getElementById("cpu-usage")
         const p_cpupercentxcore = document.getElementById("cpu-usage-percore")
+
+        const p_rampercent = document.getElementById("ram-usage")
+        const p_ramavailable = document.getElementById("ram-available")
+        const p_ramused = document.getElementById("ram-used")
+        const p_ramtotal = document.getElementById("ram-total")
+
         // set paragraph text
         p_cpupercent.textContent = cpupercent
         const fmt = n => n.toFixed(2).padStart(5, "0")
@@ -100,6 +102,11 @@
                 `<li>Core ${i+1}: ${fmt(percent)}%</li>`
             ).join("")
         });
+
+        p_rampercent.textContent = rampercent
+        p_ramavailable.textContent = ramavailable+" GB"
+        p_ramtotal.textContent = ramtotal+" GB"
+
     }
 
     updateData()
