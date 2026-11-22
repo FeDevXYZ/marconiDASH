@@ -14,19 +14,11 @@
           <h1>CPU</h1>
           <div style="margin-bottom: 8px">
               <h3>Total usage percent</h3>
-              <h2>99%</h2>
+              <h2 id="cpu-usage">99%</h2>
           </div>
           <div style="margin-top: 0">
               <h3>Usage per core</h3>
-              <ul id="cpu-usage">
-                  <li>Core 1: 76%</li>
-                  <li>Core 2: 65%</li>
-                  <li>Core 3: 38%</li>
-                  <li>Core 4: 35%</li>
-                  <li>Core 5: 18%</li>
-                  <li>Core 6: 84%</li>
-                  <li>Core 7: 70%</li>
-                  <li>Core 8: 13%</li>
+              <ul id="cpu-usage-percore">
               </ul>
           </div>
       </div>
@@ -82,12 +74,9 @@
   </div>
 </div>
 <script>
-    const data_debug = document.getElementById("data-debug")
-
     async function updateData() {
-        const r = await fetch("/data")
+        const r = await fetch("http://localhost:5000/data") // TESTING PURPOSES, CHANGE IN PRODUCTION
         const j = await r.json()
-        data_debug.textContent = JSON.stringify(j, null, 2)
 
         const [load1, load5, load15] = j.cpu.loadavg // CPU LOAD AVERAGE
         const {count: count, frequency: frequency, notlogical: notlogical} = j.cpu // CPU
@@ -101,10 +90,17 @@
         const {free: swapavailable, percent: swappercent, total: swaptotal, used: swapused} = j.memory.swap
         const {bytes_rec: received, bytes_sent: sent} = j.net
         const system = j.system
+
+        // Set text for every data
+        // document.getById() statements and vars
+        const p_cpupercent = document.getElementById("cpu-usage")
+
+        // set paragraph text
+        p_cpupercent.textContent = cpupercent
     }
 
     updateData()
-    setInterval(updateData, 5000)
+    setInterval(updateData, 1000)
 </script>
 </body>
 </html>
