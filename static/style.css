@@ -99,6 +99,17 @@ body{
     border-right: solid 1px #7C7539FF;
     padding: 4px 16px 4px 16px;
 }
-progress{
-    width: 98%
+progress {
+    border-radius: 7px;
+    width: 98%;
+    height: 5px;
+    margin-bottom: 10px;
+}
+progress::-webkit-progress-bar {
+    background-color: rgb(171 171 171 / 0.46);
+    border-radius: 7px;
+}
+progress::-webkit-progress-value {
+    background-color: #b5b590;
+    border-radius: 7px;
 }
