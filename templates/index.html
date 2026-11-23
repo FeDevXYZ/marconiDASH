@@ -55,22 +55,22 @@
             <h1>SWAP</h1>
             <div style="margin-bottom: 8px">
               <h3>Total usage percent</h3>
-              <h2>99%</h2>
+              <h2 id="swap-percent">99%</h2>
             </div>
           </div>
           <div>
             <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 20px">
               <div class="stat">
                 <h3 style="margin-bottom: 0; margin-top: 0">Available</h3>
-                <h3 style="margin-top: 0;">6,3 GB</h3>
+                <h3 id="swap-available" style="margin-top: 0;">6,3 GB</h3>
               </div>
               <div class="stat">
                 <h3 style="margin-bottom: 0; margin-top: 0">Used</h3>
-                <h3 style="margin-top: 0">1,7 GB</h3>
+                <h3 id="swap-used" style="margin-top: 0">1,7 GB</h3>
               </div>
               <div class="stat" style="border: none">
                 <h3 style="margin-bottom: 0; margin-top: 0">Total</h3>
-                <h3 style="margin-top: 0">7 GB</h3>
+                <h3 id="swap-total" style="margin-top: 0">7 GB</h3>
               </div>
             </div>
             <progress id="swap-progress" value="0" max="100"></progress>
@@ -81,6 +81,23 @@
   </div>
 </div>
 <script>
+    // document.getById() statements and vars
+    const p_cpupercent = document.getElementById("cpu-usage")
+    const p_cpupercentxcore = document.getElementById("cpu-usage-percore")
+    const pr_cpu = document.getElementById("cpu-progress")
+
+    const p_rampercent = document.getElementById("ram-usage")
+    const p_ramavailable = document.getElementById("ram-available")
+    const p_ramused = document.getElementById("ram-used")
+    const p_ramtotal = document.getElementById("ram-total")
+    const pr_ram = document.getElementById("ram-progress")
+
+    const p_swappercent = document.getElementById("swap-percent")
+    const p_swapavailable = document.getElementById("swap-available")
+    const p_swapused = document.getElementById("swap-used")
+    const p_swaptotal = document.getElementById("swap-total")
+    const pr_swap = document.getElementById("swap-progress")
+
     async function updateData() {
         const r = await fetch("http://localhost:5000/data") // TESTING PURPOSES, CHANGE IN PRODUCTION
         const j = await r.json()
@@ -96,20 +113,7 @@
         const {bytes_rec: received, bytes_sent: sent} = j.net
         const system = j.system
 
-        // Set text for every data
-        // document.getById() statements and vars
-        const p_cpupercent = document.getElementById("cpu-usage")
-        const p_cpupercentxcore = document.getElementById("cpu-usage-percore")
-        const pr_cpu = document.getElementById("cpu-progress")
-
-        const p_rampercent = document.getElementById("ram-usage")
-        const p_ramavailable = document.getElementById("ram-available")
-        const p_ramused = document.getElementById("ram-used")
-        const p_ramtotal = document.getElementById("ram-total")
-        const pr_ram = document.getElementById("ram-progress")
-  
-
-        // set paragraph text
+        // Set text for every paragraph
         p_cpupercent.textContent = cpupercent
         const fmt = n => n.toFixed(2).padStart(5, "0")
         cpupercent_percore.forEach(p => {
@@ -125,8 +129,11 @@
         p_ramtotal.textContent = ramtotal+" GB"
         pr_ram.value = parseFloat(rampercent.replace("%", ""))
 
-
-
+        p_swappercent.textContent = swappercent
+        p_swapavailable.textContent = swapavailable+" GB"
+        p_swapused.textContent = swapused+" GB"
+        p_swaptotal.textContent = swaptotal+" GB"
+        pr_swap.value = parseFloat(swappercent.replace("%", ""))
     }
 
     updateData()
