@@ -21,6 +21,7 @@
               <ul id="cpu-usage-percore">
               </ul>
           </div>
+        <progress id="cpu-progress" value="0" max="100"></progress>
       </div>
       <div class="voice1">
         <div class="voice2">
@@ -31,19 +32,22 @@
               <h2 id="ram-usage">99%</h2>
             </div>
           </div>
-          <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 20px">
+          <div>
+            <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 20px">
               <div class="stat">
                 <h3 style="margin-bottom: 0; margin-top: 0">Available</h3>
                 <h3 id="ram-available" style="margin-top: 0;">6,3 GB</h3>
               </div>
-            <div class="stat">
-              <h3 style="margin-bottom: 0; margin-top: 0">Usage</h3>
-              <h3 id="ram-used" style="margin-top: 0;">6,3 GB</h3>
-            </div>
+              <div class="stat">
+                <h3 style="margin-bottom: 0; margin-top: 0">Usage</h3>
+                <h3 id="ram-used" style="margin-top: 0;">6,3 GB</h3>
+              </div>
               <div class="stat" style="border:none">
                 <h3 style="margin-bottom: 0; margin-top: 0">Total</h3>
                 <h3 id="ram-total" style="margin-top: 0">7 GB</h3>
               </div>
+            </div>
+            <progress id="ram-progress" value="0" max="100"></progress>
           </div>
         </div>
         <div class="voice2">
@@ -54,19 +58,22 @@
               <h2>99%</h2>
             </div>
           </div>
-          <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 20px">
-            <div class="stat">
-              <h3 style="margin-bottom: 0; margin-top: 0">Available</h3>
-              <h3 style="margin-top: 0;">6,3 GB</h3>
+          <div>
+            <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 20px">
+              <div class="stat">
+                <h3 style="margin-bottom: 0; margin-top: 0">Available</h3>
+                <h3 style="margin-top: 0;">6,3 GB</h3>
+              </div>
+              <div class="stat">
+                <h3 style="margin-bottom: 0; margin-top: 0">Used</h3>
+                <h3 style="margin-top: 0">1,7 GB</h3>
+              </div>
+              <div class="stat" style="border: none">
+                <h3 style="margin-bottom: 0; margin-top: 0">Total</h3>
+                <h3 style="margin-top: 0">7 GB</h3>
+              </div>
             </div>
-            <div class="stat">
-              <h3 style="margin-bottom: 0; margin-top: 0">Used</h3>
-              <h3 style="margin-top: 0">1,7 GB</h3>
-            </div>
-            <div class="stat" style="border: none">
-              <h3 style="margin-bottom: 0; margin-top: 0">Total</h3>
-              <h3 style="margin-top: 0">7 GB</h3>
-            </div>
+            <progress id="swap-progress" value="0" max="100"></progress>
           </div>
         </div>
       </div>
@@ -93,11 +100,14 @@
         // document.getById() statements and vars
         const p_cpupercent = document.getElementById("cpu-usage")
         const p_cpupercentxcore = document.getElementById("cpu-usage-percore")
+        const pr_cpu = document.getElementById("cpu-progress")
 
         const p_rampercent = document.getElementById("ram-usage")
         const p_ramavailable = document.getElementById("ram-available")
         const p_ramused = document.getElementById("ram-used")
         const p_ramtotal = document.getElementById("ram-total")
+        const pr_ram = document.getElementById("ram-progress")
+  
 
         // set paragraph text
         p_cpupercent.textContent = cpupercent
@@ -107,11 +117,15 @@
                 `<li>Core ${i+1}: ${fmt(percent)}%</li>`
             ).join("")
         });
+        pr_cpu.value = parseFloat(cpupercent.replace("%", "")) // Momentary fix. When the important fix below is applied, this can be done even easier by cpupercent var
 
-        p_rampercent.textContent = rampercent
+        p_rampercent.textContent = rampercent // IMPORTANT FIX: Python needs to pass integers without the % to facilitate progress bar render
         p_ramavailable.textContent = ramavailable+" GB"
         p_ramused.textContent = ramused.toFixed(2).padStart(4, "0")+" GB"
         p_ramtotal.textContent = ramtotal+" GB"
+        pr_ram.value = parseFloat(rampercent.replace("%", ""))
+
+
 
     }
 

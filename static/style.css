@@ -99,3 +99,6 @@ body{
     border-right: solid 1px #7C7539FF;
     padding: 4px 16px 4px 16px;
 }
+progress{
+    width: 98%
+}
