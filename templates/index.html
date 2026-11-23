@@ -99,7 +99,7 @@
     const pr_swap = document.getElementById("swap-progress")
 
     async function updateData() {
-        const r = await fetch("http://localhost:5000/data") // TESTING PURPOSES, CHANGE IN PRODUCTION
+        const r = await fetch("/data")
         const j = await r.json()
 
         const [load1, load5, load15] = j.cpu.loadavg // CPU LOAD AVERAGE
