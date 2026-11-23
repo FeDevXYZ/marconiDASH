@@ -23,9 +23,7 @@ body{
     padding: 10px 10px 10px 20px;
     color: #7C7539FF;
     border-radius: 10px;
-    width: 21vw;
-    min-width: 20vw;
-    max-width: 40vw;
+    width: 21.5vw;
     background: white;
     height: 90%;
     h1{
@@ -51,11 +49,11 @@ body{
 }
 .voice1{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background: rgb(255 255 255 / 0.48);
-    padding: 5px 20px 5px 20px;
+    padding: 10px;
     border-radius: 15px;
     gap: 10px;
 }

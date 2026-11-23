@@ -17,7 +17,8 @@
               <h2 id="cpu-usage">99%</h2>
           </div>
           <div style="margin-top: 0">
-              <h3>Usage per core</h3>
+            <h3 id="cpu-frequency">Frequency: 0 MHz</h3>
+              <h3 id="usage-xcore">Usage per core</h3>
               <ul id="cpu-usage-percore">
               </ul>
           </div>
@@ -85,6 +86,8 @@
     const p_cpupercent = document.getElementById("cpu-usage")
     const p_cpupercentxcore = document.getElementById("cpu-usage-percore")
     const pr_cpu = document.getElementById("cpu-progress")
+    const p_cpuxcore = document.getElementById("usage-xcore")
+    const p_cpufrequency = document.getElementById("cpu-frequency")
 
     const p_rampercent = document.getElementById("ram-usage")
     const p_ramavailable = document.getElementById("ram-available")
@@ -115,6 +118,8 @@
 
         // Set text for every paragraph
         p_cpupercent.textContent = cpupercent
+        p_cpufrequency.textContent = `Frequency: ${frequency} MHz`
+        p_cpuxcore.textContent = `Usage per core  (${count} cores, ${notlogical} not logical)`
         const fmt = n => n.toFixed(2).padStart(5, "0")
         cpupercent_percore.forEach(p => {
             p_cpupercentxcore.innerHTML = cpupercent_percore.map((percent, i) =>
