@@ -78,6 +78,25 @@
           </div>
         </div>
       </div>
+      <div class="voice">
+        <h1>Disks</h1>
+        <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 8px; margin-top: 10px">
+          <div class="stat">
+            <h3 style="margin-bottom: 0; margin-top: 0">Read</h3>
+            <h3 id="disk-read" style="margin-top: 0">12,3 MB/s</h3>
+          </div>
+          <div class="stat" style="border: none">
+            <h3 style="margin-bottom: 0; margin-top: 0">Write</h3>
+            <h3 id="disk-write" style="margin-top: 0">3,2 MB/s</h3>
+          </div>
+        </div>
+        <div style="margin-top: 0">
+          <div id="diskList">
+
+          </div>
+        </div>
+        <progress id="disk-progress" value="0" max="100"></progress>
+      </div>
     </div>
   </div>
 </div>
@@ -101,6 +120,9 @@
     const p_swaptotal = document.getElementById("swap-total")
     const pr_swap = document.getElementById("swap-progress")
 
+    const p_write = document.getElementById("disk-write")
+    const p_read = document.getElementById("disk-read")
+
     async function updateData() {
         const r = await fetch("/data")
         const j = await r.json()
@@ -109,7 +131,7 @@
         const {count: count, frequency: frequency, notlogical: notlogical} = j.cpu // CPU
         const {general: cpupercent, percore: cpupercent_percore} = j.cpu.percent // CPU
         const disk = j.disk
-        const {readbytes: readMB, writebytes: writeMB } = j.disk
+        const {readbytes: readMB, writebytes: writeMB, partitions: partition } = j.disk
         const {available: ramavailable, percent: rampercent, total: ramtotal} = j.memory.ram
         const ramused = ramtotal - ramavailable
         const {free: swapavailable, percent: swappercent, total: swaptotal, used: swapused} = j.memory.swap
@@ -139,6 +161,18 @@
         p_swapused.textContent = swapused+" GB"
         p_swaptotal.textContent = swaptotal+" GB"
         pr_swap.value = parseFloat(swappercent.replace("%", ""))
+
+        p_write.textContent = writeMB+" MB/s"
+        p_read.textContent = readMB+" MB/s"
+
+        const diskList = document.getElementById("diskList")
+        diskList.innerHTML = ""
+        partition.forEach(p => {
+            const div = document.createElement("div")
+            div.classList.add("disk")
+            div.textContent = p.device
+            diskList.appendChild(div)
+        })
     }
 
     updateData()
