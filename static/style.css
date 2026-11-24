@@ -111,3 +111,16 @@ progress::-webkit-progress-value {
     background-color: #b5b590;
     border-radius: 7px;
 }
+.diskList{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 48px;
+
+}
+.disk{
+    padding: 8px 16px 8px 16px;
+    background: rgb(246 246 238 / 0.54);
+    color: #7C7539FF;
+    border-radius: 16px;
+    margin: 8px;
+}
