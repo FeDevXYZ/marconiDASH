@@ -21,28 +21,23 @@ def returnData():
   })
 @app.route('/diskdata', methods=["POST"])
 def diskdata():
-  global partitions
-  getDISK()
-
-  device = request.get_json().get("device")
-  if device is None:
-    return "Type in a device."
-  else:
-    for p in partitions:
-      if device == p["device"]:
-        dataobj = psutil.disk_usage(p["mount"])
-        free = str(dataobj.free // 1024 ** 3)+" GB"
-        used = str(dataobj.used // 1024 ** 3)+" GB"
-        total = str(dataobj.total // 1024 ** 3)+" GB"
-        percent = str(dataobj.percent)+"%"
-        return jsonify({
-          "free": free,
-          "used": used,
-          "total": total,
-          "percent": percent
-        })
-    else:
-      return "No device found."
+    data = request.get_json(silent=True) or {}
+    device = data.get("device")
+    if not device:
+        return jsonify({"error": "Type in a device."}), 400
+    for p in getPartitions():
+        if p["device"] == device:
+            try:
+                d = psutil.disk_usage(p["mount"])
+            except PermissionError:
+                return jsonify({"error": "Permission denied"}), 403
+            return jsonify({
+                "free": f"{d.free // 1024**3} GB",
+                "used": f"{d.used // 1024**3} GB",
+                "total": f"{d.total // 1024**3} GB",
+                "percent": f"{d.percent}%"
+            })
+    return jsonify({"error": "No device found."}), 404
 
 def getRAM(): # Prints and returns RAM data
   ram_obj = psutil.virtual_memory()
@@ -127,10 +122,19 @@ def initDISK():
   disk_writebytes_raw = diskobj.write_bytes
   disk_last_readbytes_raw = disk_readbytes_raw
   disk_last_writebytes_raw = disk_writebytes_raw
+def getPartitions():
+  unique = {}
+  for p in psutil.disk_partitions():
+    if p.device not in unique or len(p.mountpoint) < len(unique[p.device]["mount"]):
+      unique[p.device] = {
+        "device": p.device,
+        "mount": p.mountpoint,
+        "filesystem": p.fstype,
+        "opts": p.opts
+      }
+  return list(unique.values())
 def getDISK():
   global partitions, disk_last_readbytes_raw, disk_last_writebytes_raw
-  partitions = []
-  partitionsobj = psutil.disk_partitions()
   diskobj = psutil.disk_io_counters()
   disk_readbytes_raw = diskobj.read_bytes
   disk_writebytes_raw = diskobj.write_bytes
@@ -139,13 +143,8 @@ def getDISK():
   disk_readbytes = format((disk_readbytes_raw-disk_last_readbytes_raw)/1024**2, "04.2f")
   disk_last_readbytes_raw = disk_readbytes_raw
   disk_last_writebytes_raw = disk_writebytes_raw
-  for p in partitionsobj:
-    partition_device = p.device
-    partition_mount = p.mountpoint
-    partition_fs = p.fstype
-    partition_opts = p.opts
-    print(f"{partition_device}, {partition_mount}, {partition_fs}, {partition_opts}")
-    partitions.append({"device": partition_device, "mount": partition_mount, "filesystem": partition_fs, "opts": partition_opts})
+  # Choose which devices to send
+  partitions = getPartitions()
   print(
     partitions, "\n", disk_readbytes, disk_writebytes
   )
