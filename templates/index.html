@@ -6,6 +6,12 @@
   <title>marconiDASH</title>
 </head>
 <body>
+<div id="warning" class="warning" style="display: none">
+  <p id="warningmsg">The server might be unavailable.</p>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="warning.style='display: none'">
+    <path d="M17 17L7 7.00002M17 7L7.00001 17" stroke="black" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</div>
 <div class="main">
   <div class="container">
     <!-- <p id="data-debug"></p> used only for debug -->
@@ -140,6 +146,9 @@
     const devicetitle = document.getElementById("device-title")
     const pr_disk = document.getElementById("disk-progress")
 
+    const warning = document.getElementById("warning")
+    const warning_text = document.getElementById("warningmsg")
+
     async function getDiskData(device) {
         const raw = await fetch("/diskdata", {
             method: "POST",
@@ -150,8 +159,17 @@
     }
 
     async function updateData() {
-        const r = await fetch("/data")
-        const j = await r.json()
+        let j
+        try{
+            const r = await fetch("/data", { signal: AbortSignal.timeout(3000) })
+            j = await r.json()
+            warning.style = "display: none"
+        }
+        catch (e){
+            console.error(e.name, e.message)
+            warning.style = "display: flex"
+            warning_text.textContent = "The server might be unavailable."
+        }
 
         const [load1, load5, load15] = j.cpu.loadavg // CPU LOAD AVERAGE
         const {count: count, frequency: frequency, notlogical: notlogical} = j.cpu // CPU
@@ -216,8 +234,11 @@
         }
     }
     devicedata.style = "display: none;"
-    updateData()
-    setInterval(updateData, 1000)
+    async function loop() {
+        await updateData()
+        setTimeout(loop, 1000)
+    }
+    loop()
 </script>
 </body>
 </html>
