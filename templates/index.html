@@ -94,7 +94,7 @@
           <div id="diskList" class="diskList">
 
           </div>
-          <div id="device-data">+
+          <div id="device-data">
             <div id="device-name" class="device-stat"></div>
             <div id="device-free" class="device-stat"></div>
             <div id="device-used" class="device-stat"></div>
@@ -133,6 +133,7 @@
     const deviceused = document.getElementById("device-used")
     const devicetotal = document.getElementById("device-total")
     const devicepercent = document.getElementById("device-percent")
+    const devicename = document.getElementById("device-name")
 
     async function getDiskData(device) {
         const raw = await fetch("/diskdata", {
@@ -194,6 +195,7 @@
             diskList.appendChild(div)
             div.onclick = async () => {
                 const data = await getDiskData(p.device)
+                devicename.textContent = p.device
                 devicefree.textContent = data.free
                 deviceused.textContent = data.used
                 devicetotal.textContent = data.total
