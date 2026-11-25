@@ -94,6 +94,13 @@
           <div id="diskList" class="diskList">
 
           </div>
+          <div id="device-data">+
+            <div id="device-name" class="device-stat"></div>
+            <div id="device-free" class="device-stat"></div>
+            <div id="device-used" class="device-stat"></div>
+            <div id="device-total" class="device-stat"></div>
+            <div id="device-percent" class="device-stat"></div>
+          </div>
         </div>
         <progress id="disk-progress" value="0" max="100"></progress>
       </div>
@@ -122,6 +129,19 @@
 
     const p_write = document.getElementById("disk-write")
     const p_read = document.getElementById("disk-read")
+    const devicefree = document.getElementById("device-free")
+    const deviceused = document.getElementById("device-used")
+    const devicetotal = document.getElementById("device-total")
+    const devicepercent = document.getElementById("device-percent")
+
+    async function getDiskData(device) {
+        const raw = await fetch("/diskdata", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({device})
+        })
+        return await raw.json()
+    }
 
     async function updateData() {
         const r = await fetch("/data")
@@ -167,12 +187,19 @@
 
         const diskList = document.getElementById("diskList")
         diskList.innerHTML = ""
-        partition.forEach(p => {
+        for (const p of partition) {
             const div = document.createElement("div")
             div.classList.add("disk")
             div.textContent = p.device
             diskList.appendChild(div)
-        })
+            div.onclick = async () => {
+                const data = await getDiskData(p.device)
+                devicefree.textContent = data.free
+                deviceused.textContent = data.used
+                devicetotal.textContent = data.total
+                devicepercent.textContent = data.percent
+            }
+        }
     }
 
     updateData()
