@@ -78,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="voice">
+      <div class="voice" style="width: 25vw">
         <h1>Disks</h1>
         <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 8px; margin-top: 10px">
           <div class="stat">
@@ -94,15 +94,17 @@
           <div id="diskList" class="diskList">
 
           </div>
-          <div id="device-data">
+          <p id="device-title" style="margin: 16px 16px 4px 16px">Click on a device to show its data.</p>
+          <div id="device-data" class="device-data">
             <div id="device-name" class="device-stat"></div>
             <div id="device-free" class="device-stat"></div>
             <div id="device-used" class="device-stat"></div>
             <div id="device-total" class="device-stat"></div>
             <div id="device-percent" class="device-stat"></div>
+            <progress id="disk-progress" value="0" max="100"></progress>
           </div>
         </div>
-        <progress id="disk-progress" value="0" max="100"></progress>
+
       </div>
     </div>
   </div>
@@ -129,11 +131,14 @@
 
     const p_write = document.getElementById("disk-write")
     const p_read = document.getElementById("disk-read")
+    const devicedata = document.getElementById("device-data")
     const devicefree = document.getElementById("device-free")
     const deviceused = document.getElementById("device-used")
     const devicetotal = document.getElementById("device-total")
     const devicepercent = document.getElementById("device-percent")
     const devicename = document.getElementById("device-name")
+    const devicetitle = document.getElementById("device-title")
+    const pr_disk = document.getElementById("disk-progress")
 
     async function getDiskData(device) {
         const raw = await fetch("/diskdata", {
@@ -185,7 +190,6 @@
 
         p_write.textContent = writeMB+" MB/s"
         p_read.textContent = readMB+" MB/s"
-
         const diskList = document.getElementById("diskList")
         diskList.innerHTML = ""
         for (const p of partition) {
@@ -195,15 +199,23 @@
             diskList.appendChild(div)
             div.onclick = async () => {
                 const data = await getDiskData(p.device)
-                devicename.textContent = p.device
-                devicefree.textContent = data.free
-                deviceused.textContent = data.used
-                devicetotal.textContent = data.total
-                devicepercent.textContent = data.percent
+                if (data.error){
+                    devicetitle.textContent = "Device not found"
+                    devicedata.style = "display: none"
+                }
+                else{
+                    devicetitle.textContent = "Selected device data:"
+                    devicedata.style = "display: block;"
+                    devicename.textContent = "Device: "+p.device
+                    devicefree.textContent = "Free: "+data.free
+                    deviceused.textContent = "Used: "+data.used
+                    devicetotal.textContent = "Total: "+data.total
+                    devicepercent.textContent = data.percent
+                    pr_disk.value = parseFloat(data.percent.replace("%", ""))}
             }
         }
     }
-
+    devicedata.style = "display: none;"
     updateData()
     setInterval(updateData, 1000)
 </script>

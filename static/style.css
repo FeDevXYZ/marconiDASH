@@ -19,7 +19,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     padding: 10px 10px 10px 20px;
     color: #7C7539FF;
     border-radius: 10px;
@@ -123,4 +123,15 @@ progress::-webkit-progress-value {
     color: #7C7539FF;
     border-radius: 16px;
     margin: 8px;
+    text-align: center;
+}
+
+.device-data{
+    margin: 10px;
+    background: #f6f6ea;
+    padding: 8px 16px 8px 16px;
+    border-radius: 8px;
+}
+.device-stat{
+    margin: 2px;
 }
