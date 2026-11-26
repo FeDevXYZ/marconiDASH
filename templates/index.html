@@ -16,7 +16,8 @@
   <div class="container">
     <!-- <p id="data-debug"></p> used only for debug -->
     <div class="container-voice">
-      <div class="voice">
+      <div>
+        <div class="voice">
           <h1>CPU</h1>
           <div style="margin-top: 0">
             <div style="margin-bottom: 8px">
@@ -24,11 +25,31 @@
               <h2 id="cpu-usage">99%</h2>
             </div>
             <h3 id="cpu-frequency">Frequency: 0 MHz</h3>
-              <h3 id="usage-xcore">Usage per core</h3>
-              <ul id="cpu-usage-percore">
-              </ul>
+            <h3 id="usage-xcore">Usage per core</h3>
+            <ul id="cpu-usage-percore">
+            </ul>
           </div>
-        <progress id="cpu-progress" value="0" max="100"></progress>
+          <progress id="cpu-progress" value="0" max="100"></progress>
+        </div>
+        <div class="voice" style="margin-top: 10px">
+          <h1>System</h1>
+          <h3 id="sysname" style="margin-top: 0;">Windows</h3>
+          <h3>Load average:</h3>
+          <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 20px">
+            <div class="stat">
+              <h3 style="margin-bottom: 0; margin-top: 0">1 min</h3>
+              <h3 id="loadavg-1m" style="margin-top: 0;">6,3 GB</h3>
+            </div>
+            <div class="stat">
+              <h3 style="margin-bottom: 0; margin-top: 0">5 min</h3>
+              <h3 id="loadavg-5m" style="margin-top: 0;">6,3 GB</h3>
+            </div>
+            <div class="stat" style="border:none">
+              <h3 style="margin-bottom: 0; margin-top: 0">15 min</h3>
+              <h3 id="loadavg-15m" style="margin-top: 0">7 GB</h3>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="voice1">
         <div class="voice2">
@@ -166,6 +187,11 @@
     const netrec = document.getElementById("network-rec")
     const netsent = document.getElementById("network-sent")
 
+    const sysname = document.getElementById("sysname")
+    const loadavg_1m = document.getElementById("loadavg-1m")
+    const loadavg_5m = document.getElementById("loadavg-5m")
+    const loadavg_15m = document.getElementById("loadavg-15m")
+
     const warning = document.getElementById("warning")
     const warning_text = document.getElementById("warningmsg")
 
@@ -177,7 +203,9 @@
         })
         return await raw.json()
     }
-
+    function financial(x) {
+        return Number.parseFloat(x).toFixed(2);
+    }
     async function updateData() {
         let j
         try{
@@ -255,6 +283,11 @@
 
         netrec.textContent = received +" MB/s"
         netsent.textContent = sent + " MB/s"
+
+        sysname.textContent = system
+        loadavg_1m.textContent = financial(load1)
+        loadavg_5m.textContent = financial(load5)
+        loadavg_15m.textContent = financial(load15)
     }
     devicedata.style = "display: none;"
     async function loop() {
