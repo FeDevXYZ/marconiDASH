@@ -4,7 +4,10 @@ import os
 
 a = Analysis(
     ['main.py'],
-    datas=[('templates', 'templates')],
+    datas=[
+        ('templates', 'templates'),
+        ('static', 'static'),
+    ],
     hiddenimports=['babel.numbers'],
 )
 
