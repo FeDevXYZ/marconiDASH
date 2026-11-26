@@ -151,6 +151,7 @@ progress::-webkit-progress-value {
     background: #f6f6ea;
     padding: 8px 16px 8px 16px;
     border-radius: 8px;
+    position: relative;
 }
 .device-stat{
     margin: 2px;
