@@ -195,13 +195,12 @@
         const [load1, load5, load15] = j.cpu.loadavg // CPU LOAD AVERAGE
         const {count: count, frequency: frequency, notlogical: notlogical} = j.cpu // CPU
         const {general: cpupercent, percore: cpupercent_percore} = j.cpu.percent // CPU
-        const disk = j.disk
-        const {readbytes: readMB, writebytes: writeMB, partitions: partition } = j.disk
-        const {available: ramavailable, percent: rampercent, total: ramtotal} = j.memory.ram
-        const ramused = ramtotal - ramavailable
-        const {free: swapavailable, percent: swappercent, total: swaptotal, used: swapused} = j.memory.swap
-        const {bytes_rec: received, bytes_sent: sent} = j.net
-        const system = j.system
+        const {readbytes: readMB, writebytes: writeMB, partitions: partition } = j.disk // Disk
+        const {available: ramavailable, percent: rampercent, total: ramtotal} = j.memory.ram // RAM
+        const ramused = ramtotal - ramavailable // Used RAM (not passed by backend)
+        const {free: swapavailable, percent: swappercent, total: swaptotal, used: swapused} = j.memory.swap // SWAP
+        const {bytes_rec: received, bytes_sent: sent} = j.net // Network
+        const system = j.system // System name
 
         // Set text for every paragraph
         p_cpupercent.textContent = cpupercent
