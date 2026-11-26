@@ -1,6 +1,18 @@
 body{
     background: #ebf2e1;
 }
+.popup-container{
+    z-index: 10;
+    background: rgb(0 0 0 / 0.85);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin: 0;
+}
 .warning{
     margin-left: 50%;
     transform: translateX(-50%);
