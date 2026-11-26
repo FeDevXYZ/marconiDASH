@@ -44,7 +44,7 @@ body{
     border-radius: 10px;
     width: 21.5vw;
     background: white;
-    height: 90%;
+    height: fit-content;
     h1{
         margin-bottom: 0;
         text-align: center;
@@ -75,6 +75,7 @@ body{
     padding: 10px;
     border-radius: 15px;
     gap: 10px;
+    height: fit-content;
 }
 .voice2{
     display: flex;
@@ -87,7 +88,7 @@ body{
     min-width: 20vw;
     max-width: 30vw;
     background: white;
-    height: 90%;
+    height: fit-content;
     h1{
         margin-bottom: 0;
         text-align: center;

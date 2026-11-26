@@ -84,36 +84,50 @@
           </div>
         </div>
       </div>
-      <div class="voice" style="width: 25vw">
-        <h1>Disks</h1>
-        <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 8px; margin-top: 10px">
-          <div class="stat">
-            <h3 style="margin-bottom: 0; margin-top: 0">Read</h3>
-            <h3 id="disk-read" style="margin-top: 0">12,3 MB/s</h3>
+      <div>
+        <div class="voice" style="width: 25vw">
+          <h1>Disks</h1>
+          <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 8px; margin-top: 10px">
+            <div class="stat">
+              <h3 style="margin-bottom: 0; margin-top: 0">Read</h3>
+              <h3 id="disk-read" style="margin-top: 0">12,3 MB/s</h3>
+            </div>
+            <div class="stat" style="border: none">
+              <h3 style="margin-bottom: 0; margin-top: 0">Write</h3>
+              <h3 id="disk-write" style="margin-top: 0">3,2 MB/s</h3>
+            </div>
           </div>
-          <div class="stat" style="border: none">
-            <h3 style="margin-bottom: 0; margin-top: 0">Write</h3>
-            <h3 id="disk-write" style="margin-top: 0">3,2 MB/s</h3>
+          <div style="margin-top: 0">
+            <div id="diskList" class="diskList">
+
+            </div>
+            <p id="device-title" style="margin: 16px 16px 4px 16px">Click on a device to show its data.</p>
+            <div id="device-data" class="device-data">
+              <svg style="position: absolute; right: 20px; cursor: pointer;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="devicetitle.textContent = 'Click on a device to show its data'; devicedata.style = 'display: none'">
+                <path d="M17 17L7 7.00002M17 7L7.00001 17" stroke="#7C7539FF" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <div id="device-name" class="device-stat"></div>
+              <div id="device-free" class="device-stat"></div>
+              <div id="device-used" class="device-stat"></div>
+              <div id="device-total" class="device-stat"></div>
+              <div id="device-percent" class="device-stat"></div>
+              <progress id="disk-progress" value="0" max="100"></progress>
+            </div>
           </div>
         </div>
-        <div style="margin-top: 0">
-          <div id="diskList" class="diskList">
-
-          </div>
-          <p id="device-title" style="margin: 16px 16px 4px 16px">Click on a device to show its data.</p>
-          <div id="device-data" class="device-data">
-            <svg style="position: absolute; right: 20px; cursor: pointer;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="devicetitle.textContent = 'Click on a device to show its data'; devicedata.style = 'display: none'">
-              <path d="M17 17L7 7.00002M17 7L7.00001 17" stroke="#7C7539FF" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <div id="device-name" class="device-stat"></div>
-            <div id="device-free" class="device-stat"></div>
-            <div id="device-used" class="device-stat"></div>
-            <div id="device-total" class="device-stat"></div>
-            <div id="device-percent" class="device-stat"></div>
-            <progress id="disk-progress" value="0" max="100"></progress>
+        <div class="voice" style="width: 25vw; margin-top: 10px">
+          <h1>Network</h1>
+          <div style="display: flex; flex-direction: row; width: 100%; justify-content: center; margin-bottom: 8px; margin-top: 10px">
+            <div class="stat">
+              <h3 style="margin-bottom: 0; margin-top: 0">Recieved</h3>
+              <h3 id="network-rec" style="margin-top: 0">12,3 MB/s</h3>
+            </div>
+            <div class="stat" style="border: none">
+              <h3 style="margin-bottom: 0; margin-top: 0">Sent</h3>
+              <h3 id="network-sent" style="margin-top: 0">3,2 MB/s</h3>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
