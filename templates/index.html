@@ -163,6 +163,9 @@
     const devicetitle = document.getElementById("device-title")
     const pr_disk = document.getElementById("disk-progress")
 
+    const netrec = document.getElementById("network-rec")
+    const netsent = document.getElementById("network-sent")
+
     const warning = document.getElementById("warning")
     const warning_text = document.getElementById("warningmsg")
 
@@ -250,6 +253,9 @@
                     pr_disk.value = parseFloat(data.percent.replace("%", ""))}
             }
         }
+
+        netrec.textContent = received +" MB/s"
+        netsent.textContent = sent + " MB/s"
     }
     devicedata.style = "display: none;"
     async function loop() {
