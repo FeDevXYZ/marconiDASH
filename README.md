@@ -27,7 +27,7 @@ With ****marconiDASH****, you can monitor:
 - Disks (Devices name and free, used and total GB for each one)
 - Network (Received MBs and sent MBs)
 ## Installing and running
-
+Advice: on Windows, you could get a warning of unknown publisher, but don't worry, you can inspect the code at any time. Just ignore the warning and run the script.
 1. Go to the releases page
 2. Download the .exe or linux file
 3. Run the .exe or linux file
