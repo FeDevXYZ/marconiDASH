@@ -221,6 +221,7 @@ if __name__ == "__main__":
                  "\n2. RAM"
                  "\n3. DISK"
                  "\n4. NETWORK"
+                 "\n5. SYSTEM"
                  "\n")
     if answer == "1":
       getCPU()
@@ -230,3 +231,5 @@ if __name__ == "__main__":
       getDISK()
     elif answer == "4":
       getNET()
+    elif answer == "5":
+      getDISK()
